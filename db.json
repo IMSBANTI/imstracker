@@ -420,8 +420,11 @@
       "dueDate": "Monthly",
       "extraCreditCost": 0,
       "details": "Google Flow AI Video Automation",
-      "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "billingFrequency": "yearly",
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "clan-soft-1",
@@ -1399,8 +1402,11 @@
         "dueDate": "Monthly",
         "extraCreditCost": 0,
         "details": "Google Flow AI Video Automation",
-        "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "billingFrequency": "yearly",
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "clan-soft-1",
