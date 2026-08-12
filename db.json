@@ -509,14 +509,17 @@
       "entity": "SCL",
       "category": "Mail",
       "name": "Google Workspace (11 Seats)",
-      "email": "scl.net.bd",
-      "price": 102,
+      "email": "",
+      "price": 106.26,
       "currency": "USD",
       "dueDate": "Monthly",
       "extraCreditCost": 0,
       "details": "Google Workspace Starter 11 seats ($102/mo / 12,546 TK)",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     }
   ],
   "monthlyData": {
@@ -1459,14 +1462,17 @@
         "entity": "SCL",
         "category": "Mail",
         "name": "Google Workspace (11 Seats)",
-        "email": "scl.net.bd",
-        "price": 102,
+        "email": "",
+        "price": 106.26,
         "currency": "USD",
         "dueDate": "Monthly",
         "extraCreditCost": 0,
         "details": "Google Workspace Starter 11 seats ($102/mo / 12,546 TK)",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       }
     ]
   },
