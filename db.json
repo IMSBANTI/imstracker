@@ -128,13 +128,16 @@
       "category": "Monthly AI",
       "name": "Studio (Magnific)",
       "email": "admin@ims.com.bd",
-      "price": 25.5,
+      "price": 57.5,
       "currency": "EUR",
       "dueDate": "Monthly",
-      "extraCreditCost": 320,
+      "extraCreditCost": 0,
       "details": "Magnific AI (€25.50/mo) + Yearly Extra Cost 600k (€320/yr / 45,120 TK)",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "yearly"
+      "extraBillingFrequency": "yearly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "ims-soft-1",
@@ -1063,13 +1066,16 @@
         "category": "Monthly AI",
         "name": "Studio (Magnific)",
         "email": "admin@ims.com.bd",
-        "price": 25.5,
+        "price": 57.5,
         "currency": "EUR",
         "dueDate": "Monthly",
-        "extraCreditCost": 320,
+        "extraCreditCost": 0,
         "details": "Magnific AI (€25.50/mo) + Yearly Extra Cost 600k (€320/yr / 45,120 TK)",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "yearly"
+        "extraBillingFrequency": "yearly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "ims-soft-1",
