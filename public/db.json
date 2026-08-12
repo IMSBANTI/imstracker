@@ -399,7 +399,7 @@
       "id": "clan-ai-2",
       "entity": "CLAN",
       "category": "Monthly AI",
-      "name": "Masum",
+      "name": "Sadil",
       "email": "soaimseikh@gmail.com",
       "price": 500,
       "currency": "BDT",
@@ -407,7 +407,10 @@
       "extraCreditCost": 0,
       "details": "ChatGPT API Credit Topup",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "clan-ai-3",
@@ -1381,7 +1384,7 @@
         "id": "clan-ai-2",
         "entity": "CLAN",
         "category": "Monthly AI",
-        "name": "Masum",
+        "name": "Sadil",
         "email": "soaimseikh@gmail.com",
         "price": 500,
         "currency": "BDT",
@@ -1389,7 +1392,10 @@
         "extraCreditCost": 0,
         "details": "ChatGPT API Credit Topup",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "clan-ai-3",
