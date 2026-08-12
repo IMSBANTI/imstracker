@@ -39,6 +39,23 @@
   ],
   "expenses": [
     {
+      "id": "exp-1786529922859",
+      "entity": "IMS",
+      "category": "Monthly AI",
+      "name": "ChatGPT credit",
+      "email": "",
+      "price": 172.12,
+      "currency": "USD",
+      "dueDate": "Monthly",
+      "extraCreditCost": 0,
+      "details": "",
+      "billingFrequency": "monthly",
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
+    },
+    {
       "id": "ims-ai-1",
       "entity": "IMS",
       "category": "Monthly AI",
@@ -1000,6 +1017,23 @@
       }
     ],
     "2026-08": [
+      {
+        "id": "exp-1786529922859",
+        "entity": "IMS",
+        "category": "Monthly AI",
+        "name": "ChatGPT credit",
+        "email": "",
+        "price": 172.12,
+        "currency": "USD",
+        "dueDate": "Monthly",
+        "extraCreditCost": 0,
+        "details": "",
+        "billingFrequency": "monthly",
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
+      },
       {
         "id": "ims-ai-1",
         "entity": "IMS",
