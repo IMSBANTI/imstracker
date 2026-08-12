@@ -454,13 +454,16 @@
       "category": "Software",
       "name": "Shahidul Islam (Envato)",
       "email": "shahidul@clan.com.bd",
-      "price": 450,
+      "price": 490,
       "currency": "BDT",
       "dueDate": "Monthly",
       "extraCreditCost": 0,
       "details": "Envato Elements Assets Subscription",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "clan-net-1",
@@ -1413,13 +1416,16 @@
         "category": "Software",
         "name": "Shahidul Islam (Envato)",
         "email": "shahidul@clan.com.bd",
-        "price": 450,
+        "price": 490,
         "currency": "BDT",
         "dueDate": "Monthly",
         "extraCreditCost": 0,
         "details": "Envato Elements Assets Subscription",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "clan-net-1",
