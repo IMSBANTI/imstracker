@@ -106,13 +106,16 @@
       "category": "Monthly AI",
       "name": "IMS GPT Shared",
       "email": "imsgpt@ims.net.bd",
-      "price": 28.5,
+      "price": 28.75,
       "currency": "USD",
       "dueDate": "Monthly",
       "extraCreditCost": 0,
       "details": "ChatGPT Plus Team Account",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "ims-ai-6",
@@ -1050,13 +1053,16 @@
         "category": "Monthly AI",
         "name": "IMS GPT Shared",
         "email": "imsgpt@ims.net.bd",
-        "price": 28.5,
+        "price": 28.75,
         "currency": "USD",
         "dueDate": "Monthly",
         "extraCreditCost": 0,
         "details": "ChatGPT Plus Team Account",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "ims-ai-6",
