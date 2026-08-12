@@ -58,13 +58,16 @@
       "category": "Monthly AI",
       "name": "Nazmus Sakib",
       "email": "nazmus@ims.com.bd",
-      "price": 28.5,
+      "price": 115,
       "currency": "USD",
       "dueDate": "Monthly",
-      "extraCreditCost": 10,
+      "extraCreditCost": 0,
       "details": "ChatGPT Plus ($28.50) + Extra Cost ($10 / 1,230 TK)",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "ims-ai-3",
@@ -996,13 +999,16 @@
         "category": "Monthly AI",
         "name": "Nazmus Sakib",
         "email": "nazmus@ims.com.bd",
-        "price": 28.5,
+        "price": 115,
         "currency": "USD",
         "dueDate": "Monthly",
-        "extraCreditCost": 10,
+        "extraCreditCost": 0,
         "details": "ChatGPT Plus ($28.50) + Extra Cost ($10 / 1,230 TK)",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "ims-ai-3",
