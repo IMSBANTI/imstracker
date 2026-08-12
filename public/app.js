@@ -1,4 +1,73 @@
 
+async function fetchExpenses() {
+  // Clear memory first to prevent cross-month data leaking
+  expenses = [];
+
+  try {
+    let loadedData = false;
+    let serverData = null;
+
+    // Always fetch live db.json from server first
+    try {
+      const res = await fetch('db.json?v=' + Date.now());
+      if (res.ok) {
+        serverData = await res.json();
+        const serverVersion = serverData.dbVersion || ('v4_' + Date.now());
+        const savedVersionForMonth = localStorage.getItem('ims_db_version_' + activeMonth);
+
+        // Load settings globally
+        if (serverData.settings) {
+          settings = serverData.settings;
+          try {
+            localStorage.setItem('ims_settings', JSON.stringify(settings));
+          } catch(e) {}
+        }
+
+        // Force update if dbVersion for this specific month has changed or is empty
+        if (!savedVersionForMonth || savedVersionForMonth !== serverVersion) {
+          if (serverData.monthlyData && serverData.monthlyData[activeMonth] && serverData.monthlyData[activeMonth].length > 0) {
+            expenses = serverData.monthlyData[activeMonth];
+          } else {
+            expenses = serverData.expenses || [];
+          }
+          localStorage.setItem('ims_expenses_v2_' + activeMonth, JSON.stringify(expenses));
+          localStorage.setItem('ims_db_version_' + activeMonth, serverVersion);
+          loadedData = true;
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch remote db.json:", e);
+    }
+
+    if (!loadedData) {
+      const localSaved = localStorage.getItem('ims_expenses_v2_' + activeMonth);
+      if (localSaved) {
+        try {
+          const parsed = JSON.parse(localSaved);
+          if (Array.isArray(parsed)) {
+            expenses = parsed;
+            loadedData = true;
+          }
+        } catch(e) {}
+      }
+    }
+
+    // Fallback to server master list if nothing loaded
+    if (!loadedData && serverData) {
+      expenses = serverData.expenses || [];
+      localStorage.setItem('ims_expenses_v2_' + activeMonth, JSON.stringify(expenses));
+      localStorage.setItem('ims_db_version_' + activeMonth, serverData.dbVersion || '1.0.5');
+    }
+  } catch (err) {
+    console.error("Error fetching expenses:", err);
+  }
+
+  updateSettingsDisplay();
+  calculateMetrics();
+  populateTable();
+  renderCharts();
+}
+
 async function syncFromCloud() {
   if (!confirm("Pull latest database from GitHub cloud repository and update local server?")) return;
   
@@ -6,16 +75,17 @@ async function syncFromCloud() {
     const res = await fetch('https://imsbanti.github.io/imstracker/db.json?v=' + Date.now());
     if (res.ok) {
       const cloudData = await res.json();
+      const serverVersion = cloudData.dbVersion || ('v5_' + Date.now());
       
       settings = cloudData.settings || { usd_to_bdt: 124, eur_to_bdt: 141 };
       localStorage.setItem('ims_settings', JSON.stringify(settings));
-      localStorage.setItem('ims_db_version', cloudData.dbVersion || ('v5_' + Date.now()));
 
-      // Save all monthly data blocks to localStorage
+      // Save all monthly data blocks to localStorage with version flags
       if (cloudData.monthlyData) {
         for (const mKey in cloudData.monthlyData) {
           if (cloudData.monthlyData[mKey] && Array.isArray(cloudData.monthlyData[mKey])) {
             localStorage.setItem('ims_expenses_v2_' + mKey, JSON.stringify(cloudData.monthlyData[mKey]));
+            localStorage.setItem('ims_db_version_' + mKey, serverVersion);
           }
         }
         if (cloudData.monthlyData[activeMonth]) {
@@ -29,6 +99,7 @@ async function syncFromCloud() {
       
       // Save current month to localStorage
       localStorage.setItem('ims_expenses_v2_' + activeMonth, JSON.stringify(expenses));
+      localStorage.setItem('ims_db_version_' + activeMonth, serverVersion);
 
       // Sync the entire fetched database directly to the local server if running on localhost
       if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -57,36 +128,6 @@ async function syncFromCloud() {
   }
 }
 
-function exportDatabaseJSON() {
-  // Collect all local monthly data caches from localStorage
-  const localMonthlyData = {};
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith('ims_expenses_v2_')) {
-      const monthKey = key.replace('ims_expenses_v2_', '');
-      try {
-        localMonthlyData[monthKey] = JSON.parse(localStorage.getItem(key));
-      } catch(e) {}
-    }
-  }
-
-  const exportData = {
-    dbVersion: 'v6_user_export_' + Date.now(),
-    settings: settings,
-    expenses: expenses, // Master/current list
-    monthlyData: localMonthlyData
-  };
-
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
-  const downloadAnchor = document.createElement('a');
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", `imstracker_backup_full_${Date.now()}.json`);
-  document.body.appendChild(downloadAnchor);
-  downloadAnchor.click();
-  downloadAnchor.remove();
-  showToast("Database exported successfully (includes all months)", "success");
-}
-
 function triggerImportJSON() {
   const input = document.createElement('input');
   input.type = 'file';
@@ -99,8 +140,8 @@ function triggerImportJSON() {
     reader.onload = async event => {
       try {
         const imported = JSON.parse(event.target.result);
+        const importedVersion = imported.dbVersion || ('v6_imported_' + Date.now());
         
-        // Validation: must have expenses or monthlyData
         if (imported.expenses || imported.monthlyData) {
           if (imported.settings) {
             settings = imported.settings;
@@ -114,6 +155,7 @@ function triggerImportJSON() {
             for (const mKey in imported.monthlyData) {
               if (imported.monthlyData[mKey] && Array.isArray(imported.monthlyData[mKey])) {
                 localStorage.setItem('ims_expenses_v2_' + mKey, JSON.stringify(imported.monthlyData[mKey]));
+                localStorage.setItem('ims_db_version_' + mKey, importedVersion);
               }
             }
             if (imported.monthlyData[activeMonth]) {
@@ -127,7 +169,7 @@ function triggerImportJSON() {
 
           // Save current month to localStorage
           localStorage.setItem('ims_expenses_v2_' + activeMonth, JSON.stringify(expenses));
-          localStorage.setItem('ims_db_version', imported.dbVersion || ('v6_imported_' + Date.now()));
+          localStorage.setItem('ims_db_version_' + activeMonth, importedVersion);
 
           // Sync to local server if on localhost
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -162,6 +204,41 @@ function triggerImportJSON() {
 
 
 
+function exportDatabaseJSON() {
+  // Collect all local monthly data caches from localStorage
+  const localMonthlyData = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('ims_expenses_v2_')) {
+      const monthKey = key.replace('ims_expenses_v2_', '');
+      try {
+        localMonthlyData[monthKey] = JSON.parse(localStorage.getItem(key));
+      } catch(e) {}
+    }
+  }
+
+  const exportData = {
+    dbVersion: 'v6_user_export_' + Date.now(),
+    settings: settings,
+    expenses: expenses, // Master/current list
+    monthlyData: localMonthlyData
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `imstracker_backup_full_${Date.now()}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+  showToast("Database exported successfully (includes all months)", "success");
+}
+
+
+
+
+
+
 
 
 
@@ -177,56 +254,7 @@ function resetToCloudData() {
   }
 }
 
-async function fetchExpenses() {
-  try {
-    let loadedData = false;
 
-    // Always fetch live db.json from server first
-    try {
-      const res = await fetch('db.json?v=' + Date.now());
-      if (res.ok) {
-        const serverData = await res.json();
-        const serverVersion = serverData.dbVersion || ('v4_' + Date.now());
-        const savedVersion = localStorage.getItem('ims_db_version');
-
-        // Force update if dbVersion changed or no local edits
-        if (!savedVersion || savedVersion !== serverVersion) {
-          if (serverData.monthlyData && serverData.monthlyData[activeMonth] && serverData.monthlyData[activeMonth].length > 0) {
-            expenses = serverData.monthlyData[activeMonth];
-          } else {
-            expenses = serverData.expenses || [];
-          }
-          settings = serverData.settings || { usd_to_bdt: 123, eur_to_bdt: 135 };
-          localStorage.setItem('ims_expenses_v2_' + activeMonth, JSON.stringify(expenses));
-          localStorage.setItem('ims_db_version', serverVersion);
-          loadedData = true;
-        }
-      }
-    } catch (e) {
-      console.warn("Could not fetch remote db.json:", e);
-    }
-
-    if (!loadedData) {
-      const localSaved = localStorage.getItem('ims_expenses_v2_' + activeMonth);
-      if (localSaved) {
-        try {
-          const parsed = JSON.parse(localSaved);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            expenses = parsed;
-            loadedData = true;
-          }
-        } catch(e) {}
-      }
-    }
-  } catch (err) {
-    console.error("Error fetching expenses:", err);
-  }
-
-  updateSettingsDisplay();
-  calculateMetrics();
-  populateTable();
-  renderCharts();
-}
 
 
 // Auto-purge TP items from browser LocalStorage
