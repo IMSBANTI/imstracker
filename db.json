@@ -481,14 +481,17 @@
       "entity": "CLAN",
       "category": "Mail",
       "name": "Google Workspace CLAN",
-      "email": "28 users (12+8+7+1)",
-      "price": 302,
+      "email": "",
+      "price": 286,
       "currency": "USD",
       "dueDate": "Monthly",
       "extraCreditCost": 0,
       "details": "Google Workspace ($302.00 USD/mo paid monthly by CLAN)",
       "billingFrequency": "monthly",
-      "extraBillingFrequency": "monthly"
+      "extraBillingFrequency": "monthly",
+      "isPerUser": false,
+      "userCount": 0,
+      "costPerUser": 0
     },
     {
       "id": "clan-dom-1",
@@ -1434,14 +1437,17 @@
         "entity": "CLAN",
         "category": "Mail",
         "name": "Google Workspace CLAN",
-        "email": "28 users (12+8+7+1)",
-        "price": 302,
+        "email": "",
+        "price": 286,
         "currency": "USD",
         "dueDate": "Monthly",
         "extraCreditCost": 0,
         "details": "Google Workspace ($302.00 USD/mo paid monthly by CLAN)",
         "billingFrequency": "monthly",
-        "extraBillingFrequency": "monthly"
+        "extraBillingFrequency": "monthly",
+        "isPerUser": false,
+        "userCount": 0,
+        "costPerUser": 0
       },
       {
         "id": "clan-dom-1",
